@@ -1,12 +1,17 @@
-if [ ! -e $1 ]; then 
-	echo No existe el archivo $1
+#!/usr/bin/env bash
+
+if [[ -z "$1" ]]; then
+	echo Not file was specified >&2
+	exit 1
+elif [[ ! -f "$1" ]]; then
+	echo Error. "$1" doesn\'t exist or is not a regular file >&2 
 	exit 1
 fi
-echo Abriendo archivo $1...
-echo El archivo tiene $(wc -l < $1) lineas de log
+echo Opening File "$1"...
+echo The file has a total of $(wc -l < "$1") lines
 
-echo El archivo tiene: 
+echo The file has: 
 
-echo $(grep "INFO" $1 | wc -l) Lineas de informacion
-echo $(grep "ERROR" $1 | wc -l) Errores
-echo $(grep "WARN" $1 | wc -l) Advertencias
+echo \* $(grep -c "INFO" "$1") Lines of information
+echo \* $(grep -c "ERROR" "$1") Errors
+echo \* $(grep -c "WARN" "$1") Warnings
